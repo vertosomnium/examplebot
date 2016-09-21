@@ -5,7 +5,7 @@ var Twit = require('twit');
 var T = new Twit(require('./config.js'));
 
 // This is the URL of a search for the latest tweets on the '#mediaarts' hashtag.
-var politician = {screen_name: "hillaryclinton", count: 10, exclude_replies: "recent"};
+var politician = {screen_name: "cybertwee", count: 300};
 
 // This function finds the latest tweet with the #mediaarts hashtag, and retweets it.
 function retweetLatest() {
