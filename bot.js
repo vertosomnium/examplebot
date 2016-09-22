@@ -1,9 +1,11 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {screen_name: "hillaryclinton", count: 4};
+var politician = {screen_name: "cybertwee", count: 4};
 
 function retweetLatest() {
 	T.get('statuses/user_timeline', politician, function (error, data) {
+	  console.log(error, data);
+
     // var tweets = data[0];
     // for (var i = 0; i < tweets.length; i++) {
     //     console.log(tweets[i].text);
