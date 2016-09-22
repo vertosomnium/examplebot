@@ -1,18 +1,20 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {screen_name: "cybertwee", count: 1};
+var politician = {screen_name: "cybertwee", count: 4};
 
 function retweetLatest() {
 	T.get('statuses/user_timeline', politician, function (error, data) {
-	  console.log(error, data);
-
+    // var tweets = data[0];
+    // for (var i = 0; i < tweets.length; i++) {
+    //     console.log(tweets[i].text);
+    // }
 	  if (!error) {
 
 	  	// ...then we grab the ID of the tweet we want to retweet...
-		// var retweetId = data.id_str[0];
+		var retweetId = data[0].id_str;
 
 		// ...and then we tell Twitter we want to retweet it!
-		T.post('statuses/retweet/:id', {id: '777888357250572292' }, function (error, response) {
+		T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
 			if (response) {
 				console.log('Success! Check your bot, it should have retweeted something.')
 			}
