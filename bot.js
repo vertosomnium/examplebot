@@ -1,27 +1,26 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 30, include_rts: false};
+var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 100, include_rts: false};
 
 function retweetLatest() {
 	T.get('lists/statuses', politician, function (error, data) {
-	  console.log(error, data);
+	  // console.log(error, data);
 
 		for(var i = (data.length-1); i > 0; i--){
 		  if (!error) {
 
-		  	// ...then we grab the ID of the tweet we want to retweet...
 			var retweetId = data[i].id_str;
-			console.log(data[i].created_at + ': ' + retweetId);
+			// console.log(data[i].created_at + ': ' + retweetId);
 
-			// ...and then we tell Twitter we want to retweet it!
-		//	T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
-		//		if (response) {
-		//			console.log('Success! Check your bot, it should have retweeted something.')
-		//		}
-		//		if (error) {
-		//			console.log('There was an error with Twitter:', error);
-		//		}
-		//	})
+			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
+				if (response) {
+					console.log(data[i].created_at + ': ' + retweetId);
+					// console.log('Success! Check your bot, it should have retweeted something.')
+				}
+				if (error) {
+					// console.log('There was an error with Twitter:', error);
+				}
+			})
 		  }
 		  // However, if our original search request had an error, we want to print it out here.
 		  else {
