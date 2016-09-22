@@ -39,29 +39,26 @@ function destroyTweets() {
 		for(var i = 0; i < data.length; i++){
 		  if (!error) {
 
-		  	// ...then we grab the ID of the tweet we want to retweet...
 			var retweetId = data[i].id_str;
 
-			// ...and then we tell Twitter we want to retweet it!
 			T.post('statuses/destroy/' + retweetId, { }, function (error, response) {
 				if (response) {
-					console.log('Success! Check your bot, it should have retweeted something.')
+					console.log('Success! Check your bot, it should have destroyed tweets.')
 				}
 				if (error) {
 					console.log('There was an error with Twitter:', error);
 				}
 			})
 		  }
-		  // However, if our original search request had an error, we want to print it out here.
 		  else {
-		  	console.log('There was an error with your hashtag search:', error);
+		  	console.log('There was an error with deleting tweets:', error);
 		  }
 		}
 	});
 }
 
-// retweetLatest();
-destroyTweets();
+retweetLatest();
+// destroyTweets();
 
 // 1000 ms = 1 second, 1 sec * 60 = 1 min, 1 min * 60 = 1 hour --> 1000 * 60 * 60
 setInterval(retweetLatest, 1000 * 60 * 60);
