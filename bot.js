@@ -1,17 +1,18 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 30, include_rts: false};
+var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 100, include_rts: false};
 
 function retweetLatest() {
 	T.get('lists/statuses', politician, function (error, data) {
 	  console.log(error, data);
 
-		for(var i = (data.length-1); i > 0; i--){
+		//for(var i = (data.length-1); i > 0; i--){
+		for(var i = 0; i < data.length; i++){
 		  if (!error) {
 
 		  	// ...then we grab the ID of the tweet we want to retweet...
 			var retweetId = data[i].id_str;
-			console.log(data[i].created_at + ': ' + retweetId);
+			console.log(i + ': ' + data[i].created_at + ': ' + retweetId);
 
 			// ...and then we tell Twitter we want to retweet it!
 		//	T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
