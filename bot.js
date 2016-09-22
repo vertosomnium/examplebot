@@ -1,6 +1,6 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 20, include_rts: false};
+var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 200, include_rts: false};
 
 function retweetLatest() {
 	T.get('lists/statuses', politician, function (error, data) {
