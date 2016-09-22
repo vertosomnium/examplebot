@@ -10,10 +10,10 @@ function retweetLatest() {
     // for (var i = 0; i < tweets.length; i++) {
     //     console.log(tweets[i].text);
     // }
-for(var i = 0; i<data.length; i++){
-	  if (!error) {
+		for(var i = 0;  < data.length; i++){
+			  if (!error) {
 
-	  	// ...then we grab the ID of the tweet we want to retweet...
+	  // ...then we grab the ID of the tweet we want to retweet...
 		var retweetId = data[i].id_str;
 
 		// ...and then we tell Twitter we want to retweet it!
