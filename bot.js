@@ -1,6 +1,6 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {screen_name: "cybertwee", count: 4};
+var politician = {screen_name: "hillaryclinton", count: 4};
 
 function retweetLatest() {
 	T.get('statuses/user_timeline', politician, function (error, data) {
