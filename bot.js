@@ -43,7 +43,7 @@ function destroyTweets() {
 			var retweetId = data[i].id_str;
 
 			// ...and then we tell Twitter we want to retweet it!
-			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
+			T.post('statuses/destroy/' + retweetId, { }, function (error, response) {
 				if (response) {
 					console.log('Success! Check your bot, it should have retweeted something.')
 				}
