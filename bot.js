@@ -1,6 +1,9 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var paulina = {screen_name: "papipaulina", count: 200};
+var paulina = {
+	screen_name: "papipaulina",
+	count: 200
+};
 var politician = {
 	slug: "hillary-donald",
 	owner_screen_name: "papipaulina",
