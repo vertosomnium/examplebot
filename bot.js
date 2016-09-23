@@ -1,19 +1,24 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 10, include_rts: false};
+var paulina = {screen_name: "papipaulina", count: 200};
+var politician = {
+	slug: "hillary-donald",
+	owner_screen_name: "papipaulina",
+	count: 10,
+	include_rts: false
+};
 
-function sleep(miliseconds) {
-   var currentTime = new Date().getTime();
-
-   while (currentTime + miliseconds >= new Date().getTime()) {
-   }
+function sleep(milli) {
+  	var currentTime = new Date().getTime();
+		while (currentTime + milli >= new Date().getTime()) {
+  }
 }
 
 function retweetLatest() {
 	T.get('lists/statuses', politician, function (error, data) {
 	  // console.log(error, data);
 
-		for(var i = (data.length-1); i > 0; i--){
+		for (var i = (data.length - 1); i > 0; i--) {
 		  if (!error) {
 
 			var retweetId = data[i].id_str;
@@ -23,10 +28,8 @@ function retweetLatest() {
 
 			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
 				if (response) {
-					
 					 console.log('Success! Check your bot, it should have retweeted something.')
 					 sleep(2000);
-
 				}
 				if (error) {
 					 console.log('There was an error with Twitter:', error);
@@ -40,8 +43,6 @@ function retweetLatest() {
 		}
 	});
 }
-
-var paulina = {screen_name: "papipaulina", count: 200};
 
 function destroyTweets() {
 	T.get('statuses/user_timeline', paulina, function (error, data) {
