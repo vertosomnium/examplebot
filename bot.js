@@ -1,6 +1,13 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 100, include_rts: false};
+var politician = {slug: "hillary-donald", owner_screen_name: "papipaulina", count: 10, include_rts: false};
+
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
+}
 
 function retweetLatest() {
 	T.get('lists/statuses', politician, function (error, data) {
@@ -10,15 +17,19 @@ function retweetLatest() {
 		  if (!error) {
 
 			var retweetId = data[i].id_str;
+			var retweetDate = data[i].created_at;
 			// console.log(data[i].created_at + ': ' + retweetId);
+			console.log(i + ': ' + retweetDate + ': ' + retweetId);
 
 			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
 				if (response) {
-					console.log(data[i].created_at + ': ' + retweetId);
-					// console.log('Success! Check your bot, it should have retweeted something.')
+					
+					 console.log('Success! Check your bot, it should have retweeted something.')
+					 sleep(2000);
+
 				}
 				if (error) {
-					// console.log('There was an error with Twitter:', error);
+					 console.log('There was an error with Twitter:', error);
 				}
 			})
 		  }
