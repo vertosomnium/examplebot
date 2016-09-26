@@ -1,6 +1,6 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var max = 768153606765412352;
+var max = 765153606765412352;
 var since = 764153606765412352;
 var paulina = {
 	screen_name: "papipaulina",
@@ -82,4 +82,5 @@ retweetLatest();
 // destroyTweets();
 
 // 1000 ms = 1 second, 1 sec * 60 = 1 min, 1 min * 60 = 1 hour --> 1000 * 60 * 60
-setInterval(retweetLatest, 1000 * 6);
+
+setInterval(retweetLatest, 1000 * 60 * 17); //retweet every 17 min
