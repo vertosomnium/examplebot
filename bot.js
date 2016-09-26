@@ -1,7 +1,7 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var a = 768153606765412352;
-var b = 764153606765412352;
+var max = 768153606765412352;
+var since = 764153606765412352;
 var paulina = {
 	screen_name: "papipaulina",
 	count: 5000
@@ -14,13 +14,14 @@ function sleep(milli) {
 }
 
 function retweetLatest() {
+	max = since;
 	var politician = {
 		slug: "hillary-donald",
 		owner_screen_name: "papipaulina",
 		count: 5000,
 		include_rts: false,
-		since_id: b,
-		max_id: a
+		since_id: since,
+		max_id: max
 	};
 	T.get('lists/statuses', politician, function (error, data) {
 	  // console.log(error, data);
@@ -30,6 +31,7 @@ function retweetLatest() {
 
 			var retweetId = data[i].id;
 			var retweetDate = data[i].created_at;
+			var lastTweet = data[data.length-1].id;
 			console.log(i + ': ' + retweetDate + ': ' + retweetId);
 			// console.log('a:' + a + ',' + 'b:' + b);
 //			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
@@ -47,9 +49,9 @@ function retweetLatest() {
 		  	console.log('There was an error with your hashtag search:', error);
 		  }
 		}
-	  a += 4000000000000000;
-	  b += 4000000000000000;
+
 	});
+	since = lastTweet;
 }
 
 function destroyTweets() {
