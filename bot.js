@@ -1,7 +1,5 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var max = 765153606765412352;
-var since = 764153606765412352;
 var paulina = {
 	screen_name: "papipaulina",
 	count: 180
@@ -28,20 +26,19 @@ function retweetLatest() {
 		for (var i = (data.length - 1); i > 0; i--) {
 		  if (!error) {
 
-			var retweetId = data[i].id;
+			var retweetId = data[i].id_str;
 			var retweetDate = data[i].created_at;
 			var lastTweet = data[0].id;
 			console.log(i + ': ' + retweetDate + ': ' + retweetId);
-			// console.log('a:' + a + ',' + 'b:' + b);
-//			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
-//				if (response) {
-//					 console.log('Success! Check your bot, it should have retweeted something.')
-//					 sleep(2000);
-//				}
-//				if (error) {
-//					 console.log('There was an error with Twitter:', error);
-//				}
-//			})
+			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
+				if (response) {
+					 console.log('retweetId:' + retweetId)
+					 sleep(2000);
+				}
+				if (error) {
+					 console.log('There was an error with Twitter:', error);
+				}
+			})
 		  }
 		  // However, if our original search request had an error, we want to print it out here.
 		  else {
