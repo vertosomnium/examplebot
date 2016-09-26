@@ -30,8 +30,8 @@ function retweetLatest() {
 
 			var retweetId = data[i].id;
 			var retweetDate = data[i].created_at;
-			// console.log(i + ': ' + retweetDate + ': ' + retweetId);
-			console.log('a:' + a + ',' + 'b:' + b);
+			console.log(i + ': ' + retweetDate + ': ' + retweetId);
+			// console.log('a:' + a + ',' + 'b:' + b);
 //			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
 //				if (response) {
 //					 console.log('Success! Check your bot, it should have retweeted something.')
