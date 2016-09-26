@@ -4,7 +4,7 @@ var max = 768153606765412352;
 var since = 764153606765412352;
 var paulina = {
 	screen_name: "papipaulina",
-	count: 5000
+	count: 180
 };
 
 function sleep(milli) {
@@ -14,11 +14,10 @@ function sleep(milli) {
 }
 
 function retweetLatest() {
-	max = since;
 	var politician = {
 		slug: "hillary-donald",
 		owner_screen_name: "papipaulina",
-		count: 5000,
+		count: 180,
 		include_rts: false,
 		since_id: since,
 		max_id: max
@@ -31,7 +30,7 @@ function retweetLatest() {
 
 			var retweetId = data[i].id;
 			var retweetDate = data[i].created_at;
-			var lastTweet = data[data.length-1].id;
+			var lastTweet = data[0].id;
 			console.log(i + ': ' + retweetDate + ': ' + retweetId);
 			// console.log('a:' + a + ',' + 'b:' + b);
 //			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
@@ -49,9 +48,9 @@ function retweetLatest() {
 		  	console.log('There was an error with your hashtag search:', error);
 		  }
 		}
-
+		since = lastTweet;
+		max = since + 1000000000000000;
 	});
-	since = lastTweet;
 }
 
 function destroyTweets() {
