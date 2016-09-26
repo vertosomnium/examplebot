@@ -6,14 +6,6 @@ var paulina = {
 	screen_name: "papipaulina",
 	count: 5000
 };
-var politician = {
-	slug: "hillary-donald",
-	owner_screen_name: "papipaulina",
-	count: 5000,
-	include_rts: false,
-	since_id: b,
-	max_id: a
-};
 
 function sleep(milli) {
   	var currentTime = new Date().getTime();
@@ -22,15 +14,24 @@ function sleep(milli) {
 }
 
 function retweetLatest() {
+	var politician = {
+		slug: "hillary-donald",
+		owner_screen_name: "papipaulina",
+		count: 5000,
+		include_rts: false,
+		since_id: b,
+		max_id: a
+	};
 	T.get('lists/statuses', politician, function (error, data) {
-	  console.log(error, data);
+	  // console.log(error, data);
 
 		for (var i = (data.length - 1); i > 0; i--) {
 		  if (!error) {
 
 			var retweetId = data[i].id;
 			var retweetDate = data[i].created_at;
-			console.log(i + ': ' + retweetDate + ': ' + retweetId);
+			// console.log(i + ': ' + retweetDate + ': ' + retweetId);
+			console.log('a:' + a + ',' + 'b:' + b);
 //			T.post('statuses/retweet/' + retweetId, { }, function (error, response) {
 //				if (response) {
 //					 console.log('Success! Check your bot, it should have retweeted something.')
@@ -45,9 +46,9 @@ function retweetLatest() {
 		  else {
 		  	console.log('There was an error with your hashtag search:', error);
 		  }
-		  a += 4000000000000000;
-		  b += 4000000000000000;
 		}
+	  a += 4000000000000000;
+	  b += 4000000000000000;
 	});
 }
 
