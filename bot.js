@@ -2,7 +2,7 @@ var Twit = require('twit');
 var T = new Twit(require('./config.js'));
 var max = 756000000005000001;
 
-function retweetLatest(user, max_id=760000000005000001) {
+function retweetLatest(user, max_id=756550000005000001) {
 	var politician = {
 		screen_name: user,
 		count: 180,
@@ -22,6 +22,8 @@ function retweetLatest(user, max_id=760000000005000001) {
 
 		timelines[user] = timelines[user].concat(data);
 
+		// console.log('timelines[user]:' + timelines[user])
+
 		if (max_id < 8000000000000000) {
 			max_id += 1000000000000000;
 			setTimeout(retweetLatest, 2000, user, max);
@@ -29,6 +31,7 @@ function retweetLatest(user, max_id=760000000005000001) {
 		else {
 			doneness[user] = true;
 		}
+		console.log('max_id' + max_id)
 
 	});
 }
@@ -53,11 +56,13 @@ function checkDonenessandMaybeRetweetIfReady() {
 
 		var combinedTimelines = [].concat(timelines["HillaryClinton"]).concat(timelines["realDonaldTrump"]);
 
+		// console.log('combinedTimelines' + combinedTimelines)
+
 		var sortedTimelines = combinedTimelines.sort(function (a, b) {
-			if (a.id_str > b.id_str) {
+			if (a.id < b.id) {
 				return 1;
 			}
-			if (a.id_str < b.id_str) {
+			if (a.id > b.id) {
 				return -1;
 			}
 			return 0;
@@ -72,7 +77,7 @@ function checkDonenessandMaybeRetweetIfReady() {
 						// console.log('There was an error with Twitter:', error);
 					}
 					if (response) {
-						// console.log('retweetId:' + tweet.id_str)
+						console.log('retweetId:' + tweet.id_str)
 					}
 				})
 			}, 5100 * index)
