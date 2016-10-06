@@ -10,6 +10,7 @@ var timelines = {
 	HillaryClinton: [],
 	realDonaldTrump: []
 }
+var i = 0;
 
 function retweetLatest(user, since_id=755300000055950001, max_id=756300000055950001) {
 	var politician = {
@@ -31,7 +32,9 @@ function retweetLatest(user, since_id=755300000055950001, max_id=756300000055950
 		if (max_id < 800000000000000000) {
 			max_id += 1000000000000000;
 			since_id += 1000000000000000;
-			setTimeout(retweetLatest, 5100, user, since_id, max_id);
+			i++;
+			setTimeout(retweetLatest, 5100 * i, user, since_id, max_id);
+			console.log(i)
 		}
 		else {
 			doneness[user] = true;
