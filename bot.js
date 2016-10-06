@@ -1,40 +1,5 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var max = 756000000005000001;
-
-function retweetLatest(user, max_id=756550000005000001) {
-	var politician = {
-		screen_name: user,
-		count: 180,
-		max_id: max_id
-	};
-
-	console.log("getting some tweets", politician)
-
-
-	T.get('statuses/user_timeline', politician, function (error, data) {
-		if (error) return console.log("ERROR", error)
-
-	  // console.log(error, data);
-
-		var lastTweet = data[0].id_str;
-		since = lastTweet;
-
-		timelines[user] = timelines[user].concat(data);
-
-		// console.log('timelines[user]:' + timelines[user])
-
-		if (max_id < 8000000000000000) {
-			max_id += 1000000000000000;
-			setTimeout(retweetLatest, 2000, user, max);
-		}
-		else {
-			doneness[user] = true;
-		}
-		console.log('max_id' + max_id)
-
-	});
-}
 
 var doneness = {
 	HillaryClinton: false,
@@ -44,6 +9,35 @@ var doneness = {
 var timelines = {
 	HillaryClinton: [],
 	realDonaldTrump: []
+}
+
+function retweetLatest(user, since_id=755300000055950001, max_id=756300000055950001) {
+	var politician = {
+		screen_name: user,
+		count: 10,
+		since_id: since_id,
+		max_id: max_id
+	};
+
+	console.log("getting some tweets", politician)
+
+	T.get('statuses/user_timeline', politician, function (error, data) {
+		if (error) return console.log("ERROR", error)
+
+	  // console.log(error, data);
+
+		timelines[user] = timelines[user].concat(data);
+
+		if (max_id < 800000000000000000) {
+			max_id += 1000000000000000;
+			since_id += 1000000000000000;
+			setTimeout(retweetLatest, 5100 * index, user, since_id, max_id);
+		}
+		else {
+			doneness[user] = true;
+		}
+		console.log('max_id' + max_id, 'since_id' + since_id)
+	});
 }
 
 retweetLatest("HillaryClinton");
@@ -59,10 +53,10 @@ function checkDonenessandMaybeRetweetIfReady() {
 		// console.log('combinedTimelines' + combinedTimelines)
 
 		var sortedTimelines = combinedTimelines.sort(function (a, b) {
-			if (a.id < b.id) {
+			if (a.id > b.id) {
 				return 1;
 			}
-			if (a.id > b.id) {
+			if (a.id < b.id) {
 				return -1;
 			}
 			return 0;
