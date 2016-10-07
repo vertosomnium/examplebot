@@ -1,0 +1,8 @@
+getting some tweets { screen_name: 'HillaryClinton',
+  count: 180,
+  since_id: 755300000055950000,
+  max_id: 756300000055950000 }
+getting some tweets { screen_name: 'realDonaldTrump',
+  count: 180,
+  since_id: 755300000055950000,
+  max_id: 756300000055950000 }

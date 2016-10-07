@@ -10,12 +10,13 @@ var timelines = {
 	HillaryClinton: [],
 	realDonaldTrump: []
 }
+
 var i = 0;
 
 function retweetLatest(user, since_id=755300000055950001, max_id=756300000055950001) {
 	var politician = {
 		screen_name: user,
-		count: 10,
+		count: 180,
 		since_id: since_id,
 		max_id: max_id
 	};
@@ -28,13 +29,19 @@ function retweetLatest(user, since_id=755300000055950001, max_id=756300000055950
 	  // console.log(error, data);
 
 		timelines[user] = timelines[user].concat(data);
+		// var lastTweetId = data.length - 1;
+		// var lastTweet = data[lastTweetId].id;
 
 		if (max_id < 800000000000000000) {
-			max_id += 1000000000000000;
-			since_id += 1000000000000000;
+			since_id = max_id;
+			max_id +=  100000000000000;
 			i++;
 			setTimeout(retweetLatest, 5100 * i, user, since_id, max_id);
 			console.log(i)
+
+			for (var log = 0; log < data.length; log++) {
+				console.log(data[log].created_at + ': ' + data[log].user.screen_name);
+			}
 		}
 		else {
 			doneness[user] = true;
