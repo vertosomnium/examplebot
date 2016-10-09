@@ -1,5 +1,6 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
+var tweetConfig = require('./tweet-config.js').default;
 
 var doneness = {
 	HillaryClinton: false,
@@ -11,9 +12,9 @@ var timelines = {
 	realDonaldTrump: []
 }
 
-var i = 0;
+var i =  1;
 
-function retweetLatest(user, since_id=755300000055950001, max_id=756300000055950001) {
+function retweetLatest(user, since_id=tweetConfig.minId, max_id=tweetConfig.minId + 100000000000000) {
 	var politician = {
 		screen_name: user,
 		count: 180,
@@ -21,80 +22,45 @@ function retweetLatest(user, since_id=755300000055950001, max_id=756300000055950
 		max_id: max_id
 	};
 
-	console.log("getting some tweets", politician)
+	// console.log("getting some tweets", politician)
 
 	T.get('statuses/user_timeline', politician, function (error, data) {
 		if (error) return console.log("ERROR", error)
-
-	  // console.log(error, data);
 
 		timelines[user] = timelines[user].concat(data);
 		// var lastTweetId = data.length - 1;
 		// var lastTweet = data[lastTweetId].id;
 
+	  console.log(timelines);
+
+		var fs = require('fs');
+		fs.writeFile("./timelines.json", JSON.stringify(timelines, undefined, 2), function(err) {
+		    if(err) {
+		        return console.log(err);
+		    }
+
+		    console.log("The file was saved!");
+		});
+
 		if (max_id < 800000000000000000) {
 			since_id = max_id;
 			max_id +=  100000000000000;
 			i++;
-			setTimeout(retweetLatest, 5100 * i, user, since_id, max_id);
-			console.log(i)
-
+			setTimeout(retweetLatest, 10100, user, since_id, max_id);
 			for (var log = 0; log < data.length; log++) {
-				console.log(data[log].created_at + ': ' + data[log].user.screen_name);
+				console.log(log + data[log].created_at + ': ' + data[log].user.screen_name);
 			}
+			console.log(i)
+			console.log('max_id' + max_id, 'since_id' + since_id)
 		}
 		else {
 			doneness[user] = true;
 		}
-		console.log('max_id' + max_id, 'since_id' + since_id)
 	});
 }
 
 retweetLatest("HillaryClinton");
 retweetLatest("realDonaldTrump");
-
-function checkDonenessandMaybeRetweetIfReady() {
-	// console.log("checking doneness")
-	if (doneness["realDonaldTrump"] && doneness["HillaryClinton"]) {
-		// console.log("both feeds are done")
-
-		var combinedTimelines = [].concat(timelines["HillaryClinton"]).concat(timelines["realDonaldTrump"]);
-
-		// console.log('combinedTimelines' + combinedTimelines)
-
-		var sortedTimelines = combinedTimelines.sort(function (a, b) {
-			if (a.id > b.id) {
-				return 1;
-			}
-			if (a.id < b.id) {
-				return -1;
-			}
-			return 0;
-		});
-
-		console.log(sortedTimelines.map(tweet => `${tweet.user.name} on ${tweet.created_at}`))
-
-		sortedTimelines.forEach(function (tweet, index) {
-			setTimeout(function () {
-				T.post('statuses/retweet/' + tweet.id_str, { }, function (error, response) {
-					if (error) {
-						// console.log('There was an error with Twitter:', error);
-					}
-					if (response) {
-						console.log('retweetId:' + tweet.id_str)
-					}
-				})
-			}, 5100 * index)
-		})
-	}
-	else {
-		setTimeout(checkDonenessandMaybeRetweetIfReady, 5000);
-	}
-}
-
-checkDonenessandMaybeRetweetIfReady();
-// destroyTweets();
-// getId();
 
 // 1000 ms = 1 second, 1 sec * 60 = 1 min, 1 min * 60 = 1 hour --> 1000 * 60 * 60
 
