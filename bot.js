@@ -24,7 +24,8 @@ function retweetLatest(user, minId) {
 		screen_name: user,
 		count: 180,
 		since_id: since_id,
-		max_id: max_id
+		max_id: max_id,
+		include_rts: false
 	};
 
 
