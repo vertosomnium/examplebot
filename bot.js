@@ -1,6 +1,5 @@
 var Twit = require('twit');
 var T = new Twit(require('./config.js'));
-var tweetConfig = require('./tweet-config.js').default;
 
 var doneness = {
 	HillaryClinton: false,
@@ -18,7 +17,7 @@ function retweetLatest(user, minId) {
 	var tweetConfig = require('./' + user + '-config.json');
 
 	since_id = minId || tweetConfig.minId
-	max_id = parseInt(since_id) + 100000000000000
+	max_id = parseInt(since_id) + 10000000000000
 
 	var politician = {
 		screen_name: user,
@@ -34,14 +33,25 @@ function retweetLatest(user, minId) {
 
 		if (error) return console.log("ERROR", error)
 
-		timelines[user] = timelines[user].concat(data);
+	  console.log('incoming data', data)
 
-		// var lastTweetId = data.length - 1;
-		// var lastTweet = data[lastTweetId].id;
+		timelines[user] = timelines[user].concat(data);
 
 	  console.log(timelines);
 
-	  console.log('incoming data', data)
+		var sortedTimelines = timelines[user].sort(function (a, b) {
+		  if (a.id > b.id) {
+		    return 1;
+		  }
+		  if (a.id < b.id) {
+		    return -1;
+		  }
+		  return 0;
+		});
+
+		console.log(sortedTimelines);
+
+
 	  if (data.length > 0) {
 			var fs = require('fs');
 			fs.writeFile("./" + user + ".json", JSON.stringify(timelines[user], undefined, 2), function(err) {

@@ -5,17 +5,15 @@ var timelines = {
   realDonaldTrump: require('./realDonaldTrump.json')
 }
 
-// console.log("both feeds are done")
-
 var combinedTimelines = [].concat(timelines["HillaryClinton"]).concat(timelines["realDonaldTrump"]);
 
 // console.log('combinedTimelines' + combinedTimelines)
 
 var sortedTimelines = combinedTimelines.sort(function (a, b) {
-  if (a.id > b.id) {
+  if (a.id < b.id) {
     return 1;
   }
-  if (a.id < b.id) {
+  if (a.id > b.id) {
     return -1;
   }
   return 0;
@@ -33,5 +31,5 @@ sortedTimelines.forEach(function (tweet, index) {
         console.log('retweetId:' + tweet.id_str)
       }
     })
-  }, 5100 * index)
+  }, 6000 * index)
 })
