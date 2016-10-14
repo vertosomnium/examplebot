@@ -10,10 +10,10 @@ var combinedTimelines = [].concat(timelines["HillaryClinton"]).concat(timelines[
 // console.log('combinedTimelines' + combinedTimelines)
 
 var sortedTimelines = combinedTimelines.sort(function (a, b) {
-  if (a.id < b.id) {
+  if (a.id > b.id) {
     return 1;
   }
-  if (a.id > b.id) {
+  if (a.id < b.id) {
     return -1;
   }
   return 0;
